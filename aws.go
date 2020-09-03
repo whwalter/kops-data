@@ -20,14 +20,15 @@ func main() {
 		panic(fmt.Errorf("KOPS_CLUSTER environment variable is required: got %s", clusterString))
 	}
 	clusters := strings.Split(clusterString, ",")
+	for i, c := range clusters {
+		clusters[i] = fmt.Sprintf("kubernetes.io/cluster/%s", c)
+	}
 	filters := []*ec2.Filter{}
 
-	for _, c := range clusters {
-		filters = append(filters, &ec2.Filter{
-			Name: aws.String("tag-key"),
-			Values: []*string{aws.String(fmt.Sprintf("kubernetes.io/cluster/%s", c)),},
-			})
-	}
+	filters = append(filters, &ec2.Filter{
+		Name: aws.String("tag-key"),
+		Values: aws.StringSlice(clusters),
+		})
 	desc := &ec2.DescribeNatGatewaysInput{}
 	desc = desc.SetFilter(filters)
 
