@@ -6,8 +6,8 @@ The tool sources any cloud profiles needed in a similar way to kops. It takes a 
 An example run:
 
 ```
-go build -o kopper main.go
-KOPS_CLUSTER=test.k8s.local ./kopper
+go build -o kops-data main.go
+KOPS_CLUSTER=test.k8s.local KOPS_STATE_STORE=s3://abucketwithaconfig ./kops-data
 ```
 
 ## Notes
