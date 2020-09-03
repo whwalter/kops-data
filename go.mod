@@ -1,4 +1,4 @@
-module kopper
+module kops-data
 
 go 1.14
 
